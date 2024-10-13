@@ -10,16 +10,13 @@ pub trait IW3ABadges<TContractState> {
 
 #[starknet::contract]
 mod W3ABadges {
-    use starknet::storage::StorageMapReadAccess;
-    use starknet::event::EventEmitter;
-    use starknet::storage::StorageMapWriteAccess;
     use core::starknet::storage::{
-        Map, StoragePathEntry, StoragePointerReadAccess, StoragePointerWriteAccess
+        Map, StoragePathEntry, StoragePointerReadAccess, StoragePointerWriteAccess,
+        StorageMapReadAccess, StorageMapWriteAccess
     };
     use openzeppelin::access::ownable::OwnableComponent;
     use openzeppelin::introspection::src5::SRC5Component;
-    use openzeppelin::token::erc721::ERC721Component;
-    use openzeppelin::token::erc721::ERC721HooksEmptyImpl;
+    use openzeppelin::token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
     use openzeppelin::token::erc721::interface::ERC721ABI;
     use openzeppelin::upgrades::UpgradeableComponent;
     use openzeppelin::upgrades::interface::IUpgradeable;
@@ -80,7 +77,7 @@ mod W3ABadges {
     #[constructor]
     fn constructor(ref self: ContractState, owner: ContractAddress) {
         let badge_base_uris: ByteArray = "";
-        self.erc721.initializer("Web3Arabs Badges", "W3ABADGES", badge_base_uris.clone());
+        self.erc721.initializer("Web3Arabs Badges", "W3ABADGES", badge_base_uris);
         self.ownable.initializer(owner);
         self.whitelist.write(owner, true);
     }
